@@ -6,8 +6,11 @@ This project was developed to forecast Premier League outcomes for the 2025-26 s
 
 ## Key highlights:
 🧮 Accurate predictions – estimates points and ranks for all 20 Premier League teams
+
 📊 Data-driven insights – leverages past 5 seasons’ performance to predict future outcomes
+
 ⚡ Quick analysis – automated pipeline from raw match data to final predictions
+
 🌍 Real-world application – designed for managerial use in football analytics
 
 ## 🚀 Features
