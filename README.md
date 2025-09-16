@@ -26,8 +26,8 @@ Handle promoted/relegated teams
 Visualize predicted league table with a stylized bar graph
 
 ## 💻 Tech Stack
-Languages / Tools: Python, Pandas, NumPy
+Languages / Tools: ![Python](https://img.shields.io/badge/python-%233776AB.svg?style=for-the-badge&logo=python&logoColor=white)
 
-Developer Tools: Git, 
+Developer Tools: ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 Libraries / Frameworks: scikit-learn, Matplotlib, Seaborn
