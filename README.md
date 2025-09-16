@@ -27,5 +27,7 @@ Visualize predicted league table with a stylized bar graph
 
 ## 💻 Tech Stack
 Languages / Tools: Python, Pandas, NumPy
-Developer Tools: Git, Jupyter Notebook (optional)
+
+Developer Tools: Git, 
+
 Libraries / Frameworks: scikit-learn, Matplotlib, Seaborn
