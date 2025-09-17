@@ -1,6 +1,4 @@
-# ===============================
 # Premier League Full Table Predictor
-# ===============================
 
 #Imports
 #Data Handling
@@ -21,9 +19,7 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ===============================
-# Step 1: Load all historical CSVs
-# ===============================
+# Load all historical CSVs
 
 #Seasons (2018-19 -> 2023-24)
 csv_files = glob.glob("data/eng1_2018-*.csv") + \
@@ -53,17 +49,13 @@ df_2024_25 = df_2024_25[['Date', 'Team 1', 'FT', 'Team 2']]
 #Append 2024-25
 matches = pd.concat([matches, df_2024_25], ignore_index=True)
 
-# ===============================
-# Step 2: Parse new column into numeric goals
-# ===============================
+# Parse new column into numeric goals
 
 matches[['HomeGoals', 'AwayGoals']] = matches['FT'].str.split('-', expand=True)
 matches['HomeGoals'] = matches['HomeGoals'].astype(int)
 matches['AwayGoals'] = matches['AwayGoals'].astype(int)
 
-# ===============================
-# Step 3: Calculate points per match
-# ===============================
+# Calculate points per match
 
 def result_points(row):
     if row['HomeGoals'] > row['AwayGoals']:
@@ -75,9 +67,7 @@ def result_points(row):
 
 matches[['HomePoints', 'AwayPoints']] = matches.apply(lambda row: pd.Series(result_points(row)), axis=1)
 
-# ===============================
-# Step 4: Aggregate team stats per season
-# ===============================
+# Aggregate team stats per season
 
 season_features = []
 
@@ -124,9 +114,7 @@ for season in matches['Season'].unique():
 
 season_stats = pd.DataFrame(season_features)
 
-# ===============================
-# Step 5: Create features from previous seasons
-# ===============================
+# Create features from previous seasons
 
 season_stats = season_stats.sort_values(['Team', 'Season'])
 season_stats['PrevPoints'] = season_stats.groupby('Team')['Points'].shift(1)
@@ -137,9 +125,9 @@ season_stats['PrevGoalsAgainst'] = season_stats.groupby(['Team'])['GoalsAgainst'
 # Drop rows if previous season info is missing
 season_stats_ml = season_stats.dropna(subset=['PrevPoints', 'PrevGoalDiff', 'PrevGoalsFor', 'PrevGoalsAgainst'])
 
-# ===============================
-# Step 6: Set features and target (2020 onward)
-# ===============================
+
+# Set features and target (2020 onward)
+
 
 # IMPORTANT SIDE NOTE: Despite having the stats for 2018 onward, I believe 2020 onward gives a more accurate
 #                      representation of modern team form and modern point totals.
@@ -184,18 +172,14 @@ for team in pl_2025_26_teams:
 X_test = pd.DataFrame(X_test_list, columns=['PrevPoints','PrevGoalDiff','PrevGoalsFor','PrevGoalsAgainst'])
 teams_test = pd.Series(teams_for_test)
 
-# ===============================
-# Step 7: Train model and predict
-# ===============================
+# Train model and predict
 
 model = RandomForestRegressor(n_estimators=200, max_depth=5, random_state=42)
 model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 
-# ===============================
-# Step 8: Generate full table
-# ===============================
+# Generate full table
 
 table_pred = pd.DataFrame({
     'Team': teams_test,
@@ -211,9 +195,7 @@ print("Predicted 2025-26 Premier League Table:")
 table_pred.index = np.arange(1, len(table_pred)+1)
 print(table_pred)
 
-# ===============================
-# Step 9: Visualization
-# ===============================
+# Visualization
 
 # Sort the table by points descending
 table_pred_sorted = table_pred.sort_values('PredictedPoints', ascending=False)
